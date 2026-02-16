@@ -1,6 +1,6 @@
 # Akamai Property with CCM Third-Party Certificates
 
-This Terraform configuration manages Akamai properties with CCM (Cloud Certificate Manager) third-party certificates. Supports flexible certificate type selection (RSA, ECDSA, or both) per hostname with automatic Let's Encrypt signing via ACME. Most probably akamai customers would not be using Let's Encrypt certs with CCM and it is for internal(Akamai) testing only. Akamai customer should replace Let's Encrypt terraform provider and build similar logic with their choice of CA(if they provide terraform module for requesting and downloading certificates)
+This Terraform configuration manages Akamai properties with CCM (Cloud Certificate Manager) third-party certificates. Supports flexible certificate type selection (RSA, ECDSA, or both) per hostname with automatic Let's Encrypt signing via ACME. Most akamai customers would not be using Let's Encrypt certs with CCM and it is for internal(Akamai) testing only. Akamai customer should replace Let's Encrypt terraform provider and build similar logic with their choice of CA(if they provide terraform module for requesting and downloading certificates)
 
 ## Prerequisites
 
@@ -29,14 +29,14 @@ host = akaa-xxxxxxxxx.luna.akamaiapis.net
 access_token = your_access_token
 client_token = your_client_token`
 
-You can also store Akamai credentials in KMS or as cicd pipeline secrets
+You can also store Akamai credentials in 3rd party KMS(AWS, Azure etc.) or as CI/CD pipeline secrets
 
 ## Architecture
 
 - **Flexible Certificate Types**: Choose RSA, ECDSA, or both per hostname via `certificate_types` map in `terraform.auto.tfvars`
 - **CCM Certificates**: Creates third-party certificates with customer-managed keys
 - **Certificate Workflow Options**:
-  - **Option 1(Internal Testing only, akaami customer would not use it as SBD would be better approach for using Let's encrypt certificates)**: Automatic signing with Let's Encrypt/ACME + EdgeDNS(customers can replace this with their DNS provider)
+  - **Option 1(Internal Testing only, akamai customer's would not use it as SBD would be better approach for using Let's encrypt certificates)**: Automatic signing with Let's Encrypt/ACME + EdgeDNS(customers can replace this with their DNS provider)
   - **Option 2**: Manual CSR generation → External CA signing → Upload
 - **Domain Validation**: DCV (Domain Control Validation) for new domains
 - **Edge Hostnames**: Automatically created by Akamai when property is activated as part of hostname block in akamai_property resource with `cert_provisioning_type` selected as `CCM`
