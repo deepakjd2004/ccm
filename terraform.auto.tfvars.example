@@ -1,0 +1,85 @@
+# Common Variables
+contract_id = "ctr_XXXXXX"  # Replace with your Akamai contract ID
+group_name = "AKAMAI_GROUP_NAME"  # Replace with your Akamai group name
+email      = "your-email@example.com"  # Replace with your email
+config_section = "default"  # Replace with your edgerc section name
+edgedns_edgerc_section = "default" # Optional: Separate edgerc section for EdgeDNS if different credentials needed
+
+# Domain/Hostnames
+property_name   = "example.com"  # Replace with your property name
+hostnames       = ["example.com"]  # Replace with your hostnames
+
+# Property 
+product_id   = "prd_Fresca"
+cp_code_name    = "example.com"  # Replace with your CP code name
+origin_hostname = "origin.example.com"  # Replace with your origin hostname
+version_notes                   = "Initial version"
+activate_to_staging    = false
+activate_to_production = false
+
+# IMPORTANT: Two-step process for DCV validation:
+# Step 1: Set run_domain_validation = false, run terraform apply, check outputs for DNS records
+# Step 2: Add DNS records to external DNS, then set run_domain_validation = true, run terraform apply again
+run_domain_validation     = false
+
+# EdgeDNS Automatic DCV (Optional)
+# If you use Akamai EdgeDNS, enable this to automatically create DCV validation DNS records
+# If disabled, you must manually create DNS records in your external DNS provider
+enable_edgedns_auto_dcv   = false
+edgedns_zone              = "example.com"  # Uncomment if enable_edgedns_auto_dcv = true
+domain_validation_method  = "DNS_TXT" # Options: DNS_CNAME, DNS_TXT, HTTP (empty for auto), Keep this to DNS_TXT to avoid conflict with acme validation
+# domain_validation_scope   = "HOST"      # Options: HOST, WILDCARD, DOMAIN
+
+# CCM Certificate Configuration
+secure_network             = "ENHANCED_TLS"
+certificate_organization   = "Your Organization Name" # optional
+certificate_state          = "Your State" # optional
+certificate_locality       = "Your City" # optional
+certificate_country_code   = "US" # optional (2-letter country code)
+rsa_key_size              = "2048"
+ecdsa_key_size            = "P-256"
+
+# Certificate Types - Choose RSA, ECDSA, or both per hostname
+certificate_types = {
+  "example.com"     = ["RSA"]  # Can be ["RSA"], ["ECDSA"], or ["RSA", "ECDSA"]
+  # Examples:
+  # "example1.com" = ["RSA"]           # Only RSA
+  # "example2.com" = ["ECDSA"]         # Only ECDSA
+  # "example3.com" = ["RSA", "ECDSA"]  # Both (Note: ACME won't work with both)
+}
+
+# Certificate Signing Options
+# Option 1: Use ACME/Let's Encrypt (set to true, requires EdgeDNS configured as DNS provider)
+enable_acme_signing = false
+
+# Option 2: Upload externally signed certificates (set to true after getting CSRs signed)
+upload_signed_certificates = false
+
+# After receiving signed certificates, uncomment and populate:
+# signed_certificate_rsa_pem = {
+#   "example.com" = <<-EOT
+#     -----BEGIN CERTIFICATE-----
+#     <your signed RSA certificate>
+#     -----END CERTIFICATE-----
+#   EOT
+# }
+#
+# signed_certificate_ecdsa_pem = {
+#   "example.com" = <<-EOT
+#     -----BEGIN CERTIFICATE-----
+#     <your signed ECDSA certificate>
+#     -----END CERTIFICATE-----
+#   EOT
+# }
+#
+# trust_chain_rsa_pem = <<-EOT
+#   -----BEGIN CERTIFICATE-----
+#   <your RSA trust chain>
+#   -----END CERTIFICATE-----
+# EOT
+#
+# trust_chain_ecdsa_pem = <<-EOT
+#   -----BEGIN CERTIFICATE-----
+#   <your ECDSA trust chain>
+#   -----END CERTIFICATE-----
+# EOT
