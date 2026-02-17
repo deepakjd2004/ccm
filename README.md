@@ -23,13 +23,11 @@ Before using this Terraform configuration, you need:
 
 4. **EdgeRC Configuration**
    - Create `~/.edgerc` file with your Akamai API credentials:
-     `hcl
-     [default]
-     client_secret = your_client_secret
-     host = akaa-xxxxxxxxx.luna.akamaiapis.net
-     access_token = your_access_token
-     client_token = your_client_token
-     `
+     `[default]
+client_secret = your_client_secret
+host = akaa-xxxxxxxxx.luna.akamaiapis.net
+access_token = your_access_token
+client_token = your_client_token`
      You can also store Akamai credentials in 3rd party KMS(AWS, Azure etc.) or as CI/CD pipeline secrets
 
 ## Architecture
